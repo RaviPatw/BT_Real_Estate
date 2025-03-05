@@ -35,7 +35,10 @@ SECRET_KEY = SECRET_KEY
 DEBUG = True
 
 ALLOWED_HOSTS = ['agile-encouragement-production.up.railway.app']
-
+#CSRF for Railway
+CSRF_TRUSTED_ORIGINS = ['https://agile-encouragement-production.up.railway.app']
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
 
 # Application definition
 
