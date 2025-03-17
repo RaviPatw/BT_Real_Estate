@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
+from supabase import create_client
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -23,8 +24,18 @@ DB_HOST = os.getenv('DB_HOST')
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 SECRET_KEY=os.getenv('SECRET_KEY')
-
-
+SUPABASE_URL = os.getenv("SUPABASE_URL") 
+SUPABASE_KEY = os.getenv("SUPABASE_KEY")
+ 
+ # Ensure SUPABASE_URL is not None
+if not SUPABASE_URL:
+     raise ValueError("SUPABASE_URL is not set in environment variables")
+ 
+ # Create Supabase Client
+supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
+ 
+ # Correct MEDIA_URL format
+MEDIA_URL = f"{SUPABASE_URL}/storage/v1/object/public/media/"
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
@@ -164,7 +175,7 @@ MESSAGE_TAGS = {
 
 #Media Folder Settings
 MEDIA_ROOT=os.path.join(BASE_DIR,'media')
-MEDIA_URL='/media/'
+# MEDIA_URL='/media/'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
